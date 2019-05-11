@@ -20,8 +20,8 @@ export default class App extends Component<Props> {
     };
   }
 
-  componentDidMount(){
-    fetch('http://localhost:9000/', {
+  httpurl(url) {
+    fetch(url, {
       method: 'GET',
       headers: {
         Accept: 'text/html',
@@ -38,26 +38,15 @@ export default class App extends Component<Props> {
       });
     });
   }
+  
+  componentDidMount(){
+    this.httpurl('http://localhost:9000/');
+  }
 
   dotype = (text) => this.input = text;
 
   doAction = () => {
-    fetch('http://localhost:9000/users', {
-      method: 'GET',
-      headers: {
-        Accept: 'text/html',
-        'Content-Type': 'text/html',
-      }
-    }).then((response)=>{
-      response.text().then((txt)=>{
-        let parser = DOMParser(txt);
-        let hidden = parser.getElementById('hidden');
-        let value = hidden.attributes.value;
-        console.log(hidden);
-        console.log(value);
-        this.setState({text:value});
-      });
-    });
+    this.httpurl('http://localhost:9000/users');
   }
 
   render() {
